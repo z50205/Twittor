@@ -1,4 +1,8 @@
 from flask import Flask
-from flask import render_template
+from twittor.route import index,login
 
-app=Flask(__name__)
+def create_app():
+    app=Flask(__name__)
+    app.add_url_rule('/','index',index)
+    app.add_url_rule('/login','login',login,methods=['GET','POST'])
+    return app
