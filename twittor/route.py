@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for
 from twittor.forms import Loginform
-
+from twittor.models import User,Tweet
 def index():
     name={'username':'tester'}
     title='bark'
