@@ -12,7 +12,11 @@
 <body>
     <div>
         Twittor：<a href="{{url_for('index')}}">Home</a>
-        <a href="{{url_for('login')}}">Log-IN</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{url_for('login')}}">Log-In</a>
+        {% else %}
+        <a href="{{url_for('logout')}}">Log-Out</a>
+        {% endif %}
     </div>
     <hr>
     {% block content %}{% endblock %}
