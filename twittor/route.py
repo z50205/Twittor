@@ -1,7 +1,8 @@
 from flask import render_template,redirect,url_for,request
-from twittor.forms import Loginform
+from twittor.forms import Loginform,Registerform
 from twittor.models import User,Tweet
 from flask_login import login_user,current_user,logout_user,login_required
+from twittor import db
 
 @login_required
 def index():
@@ -37,3 +38,16 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form=Registerform(meta={'csrf': False})
+    if form.validate_on_submit():
+        user=User(username=form.username.data,email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html',title="Register",form=form)
