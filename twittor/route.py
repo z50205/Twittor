@@ -1,4 +1,4 @@
-from flask import render_template,redirect,url_for,request
+from flask import render_template,redirect,url_for,request,abort
 from twittor.forms import Loginform,Registerform
 from twittor.models import User,Tweet
 from flask_login import login_user,current_user,logout_user,login_required
@@ -51,3 +51,20 @@ def register():
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('register.html',title="Register",form=form)
+
+@login_required
+def user(username):
+    u=User.query.filter_by(username=username).first()
+    if u is None:
+        abort(404)
+    posts=[
+        {
+            'author':{'username':u.username},
+            'body':"hi i'm {}!".format(u.username)
+        },
+        {
+            'author':{'username':u.username},
+            'body':"hi i'm {}!".format(u.username)
+        },
+    ]
+    return render_template('user.html',title='profile',posts=posts,user=u)
