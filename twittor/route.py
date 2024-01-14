@@ -6,8 +6,6 @@ from twittor import db
 
 @login_required
 def index():
-    name={'username':current_user.username}
-    title='bark'
     posts=[
         {
             'author':{'username':'root'},
@@ -18,7 +16,7 @@ def index():
             'body':"hi i'm test"
         },
     ]
-    return render_template('index.html',name=name,title=title,posts=posts)
+    return render_template('index.html',posts=posts)
 
 def login():
     if current_user.is_authenticated:
@@ -68,3 +66,6 @@ def user(username):
         },
     ]
     return render_template('user.html',title='profile',posts=posts,user=u)
+
+def page_not_found(e):
+    return render_template('404.html'),404
