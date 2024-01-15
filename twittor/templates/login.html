@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<<<<<<< HEAD
 <h1>Login</h1>
 <form action="" method="post">
     <p>
@@ -20,3 +21,27 @@
     </p>
 </form>
 {% endblock %}
+=======
+
+    <h1>Login</h1>
+    <form action="" method="post">
+        <p>
+            {{ form.username.label }}
+            {{ form.username() }}
+        </p>
+        <p>
+            {{ form.password.label }}
+            {{ form.password() }}
+        </p>
+        <p>
+            {{ form.remember_me() }}
+            {{ form.remember_me.label }}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+        <a href="{{ url_for('register') }}">New User?</a>
+    </form>
+
+    {% endblock %}
+>>>>>>> 0.6

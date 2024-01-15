@@ -1,0 +1,15 @@
+git filter-branch -f --env-filter '
+if [ "$GIT_AUTHOR_NAME" = "Biz" ]
+then
+export GIT_AUTHOR_NAME="z50205"
+export GIT_AUTHOR_EMAIL="z50205@yahoo.com.tw"
+fi
+' HEAD
+ 
+git filter-branch -f --env-filter '
+if [ "$GIT_COMMITTER_NAME" = "Biz" ]
+then
+export GIT_COMMITTER_NAME="z50205"
+export GIT_COMMITTER_EMAIL="z50205@yahoo.com.tw"
+fi
+' HEAD
