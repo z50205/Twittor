@@ -1,14 +1,4 @@
 from flask import Flask
-<<<<<<< HEAD
-from flask.cli import AppGroup
-from twittor import create_app
-
-app=create_app()
-manager = AppGroup(app)
-
-if __name__ == "__main__":
-    app.run()
-=======
 from flask.cli import FlaskGroup
 from flask_migrate import Migrate
 from twittor import create_app, db
@@ -26,4 +16,3 @@ cli=FlaskGroup(app)
 
 if __name__ == "__main__":
     cli()
->>>>>>> 0.6

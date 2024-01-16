@@ -1,19 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<<<<<<< HEAD
-<h1>Hello,{{name.username}}</h1>
-=======
 <h1>Hello,<a href="/{{current_user.username}}">{{current_user.username}}</h1></a>
->>>>>>> 0.6
 {% for post in posts %}
 <div>
     <p>{{post.author.username}}says：<b>{{post.body}}</b></p>
 </div>
 {% endfor %}
-<<<<<<< HEAD
-{% endblock %}
-=======
 {% endblock %}
 
->>>>>>> 0.6

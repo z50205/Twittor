@@ -1,12 +1,4 @@
 from flask import Flask
-<<<<<<< HEAD
-from twittor.route import index,login
-
-def create_app():
-    app=Flask(__name__)
-    app.add_url_rule('/','index',index)
-    app.add_url_rule('/login','login',login,methods=['GET','POST'])
-=======
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from twittor.config import Config
@@ -30,8 +22,7 @@ def create_app():
     app.add_url_rule('/login','login',login,methods=['GET','POST'])
     app.add_url_rule('/logout','logout',logout)
     app.add_url_rule('/register','register',register,methods=['GET','POST'])
-    app.add_url_rule('/<username>','profile',user)
+    app.add_url_rule('/<username>','profile',user,methods=['GET','POST'])
     app.register_error_handler(404,page_not_found)
     app.add_url_rule('/edit_profile','edit_profile',edit_profile,methods=['GET','POST'])
->>>>>>> 0.6
     return app

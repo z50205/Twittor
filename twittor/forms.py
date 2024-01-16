@@ -1,20 +1,12 @@
 from flask_wtf import FlaskForm
-<<<<<<< HEAD
-from wtforms import StringField,PasswordField,BooleanField,SubmitField
-from wtforms.validators import DataRequired
-=======
 from wtforms import StringField,PasswordField,BooleanField,SubmitField,TextAreaField
 from wtforms.validators import DataRequired,Email,EqualTo,ValidationError,Length
 from twittor.models import User
->>>>>>> 0.6
 
 class Loginform(FlaskForm):
     username=StringField("username",validators=[DataRequired()])
     password=PasswordField("Password",validators=[DataRequired()])
     remember_me=BooleanField("Remember me")
-<<<<<<< HEAD
-    submit =SubmitField('SignIn')
-=======
     submit =SubmitField('SignIn')
 
 class Registerform(FlaskForm):
@@ -37,4 +29,3 @@ class Registerform(FlaskForm):
 class EditProfileform(FlaskForm):
     about_me=TextAreaField('About me',validators=[Length(min=0,max=120)])
     submit=SubmitField('save')
->>>>>>> 0.6
