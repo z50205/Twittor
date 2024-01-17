@@ -3,7 +3,7 @@
 {% block content %}
 <table>
     <tr>
-        <td><img src="{{user.avatar()}}" alt=""></td>
+        <td><img src="{{user.avatar(134)}}" alt=""></td>
         <td>
             <p>
                 <b>{{user.username}}</b>
@@ -32,13 +32,12 @@
         </td>
     </tr>
 </table>    
-{% for post in posts %}
-<table>
-    <tr>
-        <td><img src="{{user.avatar(15)}}" alt=""></td>
-        <td>{{post.author.username}} says：<b>{{post.body}}</b></td>
-    </tr>
-</table>    
-{% endfor %}
+{% include '_tweets.html' %}
+{% if prev_url %}
+<a href="{{prev_url}}">Prev Page</a>
+{% endif %}
+{% if next_url %}
+<a href="{{next_url}}">Next Page</a>
+{% endif %}
 {% endblock %}
 
