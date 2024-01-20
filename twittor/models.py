@@ -4,6 +4,10 @@ from twittor import db,login_manager
 from flask_login import UserMixin
 from hashlib import md5
 
+import time
+import jwt
+from flask import current_app
+
 followers=db.Table('followers'
     ,db.Column('follower_id',db.Integer,db.ForeignKey('user.id'))
     ,db.Column('followed_id',db.Integer,db.ForeignKey('user.id'))
@@ -52,6 +56,24 @@ class User(UserMixin,db.Model):
         own=Tweet.query.filter_by(user_id=self.id)
         followed=Tweet.query.join(followers,(followers.c.followed_id==Tweet.user_id)).filter(followers.c.follower_id==self.id)
         return followed.union(own).order_by(Tweet.create_time.desc())
+    
+    def get_jwt(self,expire=7200):
+        return jwt.encode(
+            {
+                'email':self.email,
+                'exp':time.time()+expire
+            },current_app.config['SECRET_KEY'],
+            algorithm='HS256')
+    
+    @staticmethod
+    def verify_jwt(token):
+        try:
+            email=jwt.decode(token,current_app.config['SECRET_KEY'],algorithms=['HS256'])
+            print(email)
+            email=email['email']
+        except:
+            return
+        return User.query.filter_by(email=email).first()
 
 
 
