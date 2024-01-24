@@ -3,10 +3,15 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from twittor import db,login_manager
 from flask_login import UserMixin
 from hashlib import md5
+from twittor.models.tweet import Tweet
 
 import time
 import jwt
 from flask import current_app
+
+
+
+
 
 followers=db.Table('followers'
     ,db.Column('follower_id',db.Integer,db.ForeignKey('user.id'))
@@ -23,6 +28,7 @@ class User(UserMixin,db.Model):
     create_time=db.Column(db.DateTime,default=datetime.utcnow)
     phone=db.Column(db.String(120))
     tweets=db.relationship('Tweet',backref='author',lazy='dynamic')
+    is_activated=db.Column(db.Boolean,default=False)
 
     followed=db.relationship(
         'User',secondary=followers,
@@ -80,15 +86,3 @@ class User(UserMixin,db.Model):
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
-
-class Tweet (db.Model):
-    id=db.Column(db.Integer,primary_key=True)
-    body=db.Column(db.String(140))
-    create_time=db.Column(db.DateTime,default=datetime.utcnow)
-    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
-    
-    def __repr__(self):
-        return 'id={},tweet={},create time={},user_id={}'.format(
-             self.id,self.body,self.create_time,self.user_id
-        )

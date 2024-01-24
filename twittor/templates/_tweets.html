@@ -2,7 +2,7 @@
 {% for tweet in tweets %}
     <tr valign="top">
         <td><a href="{{url_for('profile',username=tweet.author.username)}}"><img src="{{tweet.author.avatar(48)}}" alt=""></a></td>
-        <td><b><a href="{{url_for('profile',username=tweet.author.username)}}">{{tweet.author.username}}</a></b>{{tweet.create_time}}<br>
+        <td class="col-md-10 align-left"><b><a href="{{url_for('profile',username=tweet.author.username)}}">{{tweet.author.username}}</a></b>{{tweet.create_time.replace(second=0, microsecond=0)}}<br>
             {{tweet.body}}</td>
     </tr>
 {% endfor %}

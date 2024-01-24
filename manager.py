@@ -2,7 +2,7 @@ from flask import Flask
 from flask.cli import FlaskGroup
 from flask_migrate import Migrate
 from twittor import create_app, db
-from twittor.models import User
+from twittor.models.user import User
 
 
 app = create_app()
