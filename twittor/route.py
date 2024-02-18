@@ -1,5 +1,5 @@
 from flask import render_template,redirect,url_for,request,abort,current_app,flash
-from twittor.forms import Loginform,Registerform,EditProfileform,Tweetform,PasswdResetRequestForm,PasswdResetForm
+from twittor.forms import Loginform,Registerform,EditProfileform,Tweetform,PasswdResetRequestForm,PasswdResetForm,UpLoadForm
 from twittor.models.user import User
 from twittor.models.tweet import Tweet
 from flask_login import login_user,current_user,logout_user,login_required
@@ -7,6 +7,7 @@ from twittor import db
 from twittor.email import send_email
 
 import os
+import uuid
 
 
 
@@ -14,15 +15,31 @@ import os
 def index():
     form=Tweetform()
     if form.validate_on_submit():
-        t=Tweet(body=form.tweet.data,author=current_user)
+        tweet_id=str(uuid.uuid1())
+        imgs = request.files.getlist('filename')
+        total_photo=len(imgs)
+        print(total_photo)
+        if imgs[0].filename != '':
+            save_path=os.path.abspath(os.path.join(os.path.split(__file__)[0],'static/data',tweet_id))
+            os.mkdir(save_path)
+            s=''
+            for i,img in enumerate(imgs):
+                if img.filename != '':
+                    filename=str('/'+str(i+1)+'.'+img.filename.split('.')[1])
+                    img.save(os.path.abspath(save_path+filename))
+            all_files=os.listdir(save_path)
+            all_files_name=' '.join(str(file) for file in all_files)
+        t=Tweet(body=form.tweet.data,author=current_user,id=tweet_id,all_files_name=all_files_name)
         db.session.add(t)
-        db.session.commit()
+        db.session.commit()        
         return redirect(url_for('index'))
     page_num=int(request.args.get('page') or 1)
     tweets=current_user.own_and_followed_tweets().paginate(page=page_num,per_page=current_app.config['TWEET_PER_PAGE'],error_out=False)
     next_url=url_for('index',page=tweets.next_num) if tweets.has_next else None
     prev_url=url_for('index',page=tweets.prev_num) if tweets.has_prev else None
     return render_template('index.html',tweets=tweets.items,form=form,next_url=next_url,prev_url=prev_url)
+
+
 
 def login():
     if current_user.is_authenticated:
@@ -37,7 +54,7 @@ def login():
         next_page=request.args.get('next')
         print(next_page)
         if next_page:
-            return redirect(url_for(next_page))
+            return redirect(next_page)
         return redirect(url_for('index'))
     return render_template('login.html',title="Sign In",form=form)
 def logout():
@@ -176,3 +193,6 @@ def user_activate(token):
         db.session.commit()
         msg = 'User has been activated!'
     return render_template('user_activate.html',msg=msg)
+
+def upload_image():
+    return render_template('upload_image.html')

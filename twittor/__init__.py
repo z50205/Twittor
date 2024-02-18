@@ -11,7 +11,7 @@ login_manager=LoginManager()
 mail=Mail()
 login_manager.login_view='login'
 
-from twittor.route import index,login,logout,register,user,page_not_found,edit_profile,reset_password_request,password_reset,explore,user_activate
+from twittor.route import index,login,logout,register,user,page_not_found,edit_profile,reset_password_request,password_reset,explore,user_activate,upload_image
 
 def create_app():
     app=Flask(__name__)
@@ -32,4 +32,5 @@ def create_app():
     app.add_url_rule('/password_reset/<token>','password_reset',password_reset,methods=['GET','POST'])
     app.add_url_rule('/explore','explore',explore,methods=['GET','POST'])
     app.add_url_rule('/activate/<token>','user_activate',user_activate)
+    app.add_url_rule('/upload_image','upload_image',upload_image)
     return app

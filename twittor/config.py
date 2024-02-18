@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,5 +19,6 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'password')
     RECIPENT=os.environ.get('RECIPENT')
     MAIL_SUBJECT_RESET_PASSWORD = '[Twittor] Please Reset Your Password'
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', '0')
 
  

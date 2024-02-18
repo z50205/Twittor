@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  web:
+    ports:
+      - "8000:8000"
+    container_name: twittor_20240213
+    image: twittor
+
+  nginx:
+    container_name: nginx-https
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - web
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./conf.d:/etc/nginx/conf.d/:ro
+      - ./certbot/www/:/var/www/certbot/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw

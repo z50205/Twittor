@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<input type="file" accept="image/*" id="files" multiple />
+<output id="list"></output>
+<script>
+function handleFileSelect (evt) {
+  // Loop through the FileList and render image files as thumbnails.
+var element = document.getElementById("list");
+while (element.firstChild) {
+  element.removeChild(element.firstChild);
+}
+  for (const file of evt.target.files) {
+    // Render thumbnail.
+    const span = document.createElement('span')
+    const src = URL.createObjectURL(file)
+    span.innerHTML = 
+      `<img style="height: 75px; border: 1px solid #000; margin: 5px"` + 
+      `src="${src}" title="${escape(file.name)}" id='upload_img'>`
+    document.getElementById("list").insertBefore(span, null)
+  }
+}
+
+document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+{% endblock%}
+

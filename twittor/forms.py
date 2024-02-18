@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,BooleanField,SubmitField,TextAreaField
+from wtforms import StringField,PasswordField,BooleanField,SubmitField,TextAreaField,MultipleFileField
 from wtforms.validators import DataRequired,Email,EqualTo,ValidationError,Length
 from twittor.models.user import User
 
@@ -51,3 +51,6 @@ class PasswdResetForm(FlaskForm):
     password1=PasswordField('password1',validators=[DataRequired()])
     password2=PasswordField('password2',validators=[DataRequired(),EqualTo('password1')])
     submit=SubmitField('Reset Password')
+
+class UpLoadForm(FlaskForm):
+    files = MultipleFileField('File(s) Upload')

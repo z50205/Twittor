@@ -1,9 +1,25 @@
-<table>
 {% for tweet in tweets %}
-    <tr valign="top">
-        <td><a href="{{url_for('profile',username=tweet.author.username)}}"><img src="{{tweet.author.avatar(48)}}" alt=""></a></td>
-        <td class="col-md-10 align-left"><b><a href="{{url_for('profile',username=tweet.author.username)}}">{{tweet.author.username}}</a></b>{{tweet.create_time.replace(second=0, microsecond=0)}}<br>
-            {{tweet.body}}</td>
-    </tr>
+<div class="container-md">
+    <table>
+        <tr valign="top">
+            <td width="50px"><a href="{{url_for('profile',username=tweet.author.username)}}"><img src="{{tweet.author.avatar(48)}}"
+                        alt=""></a></td>
+            <td><b><a href="{{url_for('profile',username=tweet.author.username)}}">{{tweet.author.username}}</a></b>{{tweet.create_time.replace(second=0,
+                microsecond=0)}}<br>
+                {{tweet.body}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                {% if tweet.all_files_name%}
+                {% set all_files = tweet.all_files_name.split(' ') %}
+                {% for filename in all_files %}
+                <a href="{{ url_for('static', filename='data/') }}{{tweet.id}}/{{filename}}">
+                <img src="{{ url_for('static', filename='data/') }}{{tweet.id}}/{{filename}}"
+                    style="height: 200px; border: 1px solid #000; margin: 5px"></a>
+                {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</div>
 {% endfor %}
-</table>

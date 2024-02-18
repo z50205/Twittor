@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container-md">
 <h1>Hello,<a href="/{{current_user.username}}">{{current_user.username}}</h1></a>
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag()}}
     <p>
         {{ form.tweet.label }}<br>
         {{ form.tweet(cols=50, rows=4) }}<br>
+        <input type="file" name="filename" accept="image/*" id="files" multiple />
+        <output id="list"></output>
         {% for error in form.tweet.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
@@ -20,5 +23,25 @@
 {% if next_url %}
 <a href="{{next_url}}">Next Page</a>
 {% endif %}
-{% endblock %}
+</div>
+<script>
+    function handleFileSelect(evt) {
+        // Loop through the FileList and render image files as thumbnails.
+        var element = document.getElementById("list");
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+        for (const file of evt.target.files) {
+            // Render thumbnail.
+            const span = document.createElement('span')
+            const src = URL.createObjectURL(file)
+            span.innerHTML =
+                `<img style="height: 75px; border: 1px solid #000; margin: 5px"` +
+                `src="${src}" title="${escape(file.name)}">`
+            document.getElementById("list").insertBefore(span, null)
+        }
+    }
 
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+{% endblock %}
